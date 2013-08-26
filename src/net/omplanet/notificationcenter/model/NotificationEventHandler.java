@@ -1,15 +1,15 @@
 package net.omplanet.notificationcenter.model;
 
+import net.omplanet.notificationcenter.model.NotificationCenter;
 
-
-public class AppEventHandler {
-    public NotificationCenter defaultCenter;
+public class NotificationEventHandler {
+    public NotificationCenter defaulNotiftCenter;
     public NotificationCenter uiLayerNotifCenter;
 
-    public AppEventHandler() {
-        uiLayerNotifCenter = new NotificationCenter();
-        defaultCenter = new NotificationCenter();
-        //more notification centers can be created
+    public NotificationEventHandler() {
+        uiLayerNotifCenter = new NotificationCenter("uiLayerNotifCenter");
+        defaulNotiftCenter = new NotificationCenter("defaulNotiftCenter");
+        //If needed more layers of notification centers can be added here
     }
 
     public NotificationCenter getUiLayerNotifCenter() {
@@ -17,7 +17,7 @@ public class AppEventHandler {
     }
 
     public NotificationCenter getDefaultNotifCenter() {
-        return defaultCenter;
+        return defaulNotiftCenter;
     }
 
     public void handleMessageFromServer(String notification, Object object) {

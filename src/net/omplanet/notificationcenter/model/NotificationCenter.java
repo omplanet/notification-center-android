@@ -8,10 +8,12 @@ import android.util.Log;
 
 public class NotificationCenter {
     private HashMap<String, CustomObservable> observables;
+    private String name;
 
     private final String TAG = getClass().getName();
 
-    public NotificationCenter() {
+    public NotificationCenter(String name) {
+    	this.name = name;
         this.observables = new HashMap<String, CustomObservable>();
     }
 
@@ -34,11 +36,11 @@ public class NotificationCenter {
     }
 
     public synchronized void postNotification(String notification, Object object) {
-        Log.d(TAG, "postNotification: notification = " + notification);
+        Log.d(TAG, name + ".postNotification(): notification = " + notification);
         
         //DEBUG print thread ID
-        Thread thread = Thread.currentThread();
-        Log.d(TAG, "postNotification: Current Thread ID = " + thread.getId());
+        //Thread thread = Thread.currentThread();
+        //Log.d(TAG, "postNotification: Current Thread ID = " + thread.getId());
 
         CustomObservable observable = observables.get(notification);
         if (observable != null) {

@@ -11,6 +11,57 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:text="Demo Commands"
+        android:id="@+id/textView"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Connect"
+            android:id="@+id/button_connect"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/textView"
+            android:layout_alignLeft="@+id/textView"
+            android:onClick="connectButtonClicked"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Disconnect"
+            android:id="@+id/button_disconnect"
+            android:layout_marginTop="12dp"
+            android:layout_below="@+id/button_connect"
+            android:layout_alignLeft="@+id/button_connect"
+            android:onClick="disconnectButtonClicked"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send Client Command 1"
+            android:id="@+id/button_cmd_1"
+            android:layout_marginTop="13dp"
+            android:layout_below="@+id/button_disconnect"
+            android:layout_alignLeft="@+id/button_disconnect"
+            android:onClick="sendClientCommand_1Clicked"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Log: "
+            android:id="@+id/textView_log_label"
+            android:layout_below="@+id/button_cmd_1"
+            android:layout_alignLeft="@+id/button_cmd_1"
+            android:layout_marginTop="38dp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="..."
+            android:id="@+id/textView_log"
+            android:layout_alignBottom="@+id/textView_log_label"
+            android:layout_toRightOf="@+id/textView_log_label"
+            android:layout_marginLeft="12dp"/>
 
 </RelativeLayout>
