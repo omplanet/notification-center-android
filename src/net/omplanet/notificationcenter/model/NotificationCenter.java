@@ -6,6 +6,17 @@ import java.util.Observer;
 
 import android.util.Log;
 
+/**
+ * This NotificationCenter class is an extension of the observer pattern in
+ * the Android and it can be used to broadcast notifications with objects to
+ * multiple UI, Network or any other logical layer in the scope of the
+ * application and catch notifications with appropriated methods.
+ * 
+ * For each notification name a separate set of Observable objects is
+ * created. The Observers are registered to the Observable of the
+ * notification.
+ * 
+ */
 public class NotificationCenter {
     private HashMap<String, CustomObservable> observables;
     private String name;
@@ -17,6 +28,17 @@ public class NotificationCenter {
         this.observables = new HashMap<String, CustomObservable>();
     }
 
+	/**
+	 * For each notification name a separate set of Observable objects is
+	 * created. The Observers are registered to the Observable of the
+	 * notification.
+	 * 
+	 * Only one instance of the same Observer object can be registered with the
+	 * same notification.
+	 * 
+	 * @param notification
+	 * @param observer
+	 */
     public synchronized void addObserver(String notification, Observer observer) {
         CustomObservable observable = observables.get(notification);
         if (observable == null) {

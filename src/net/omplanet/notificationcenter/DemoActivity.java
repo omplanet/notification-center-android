@@ -14,33 +14,41 @@ import android.view.View;
 import android.widget.TextView;
 
 public class DemoActivity extends Activity {
-    private final String TAG = getClass().getName();
-    private TextView commandLog;
-    private DemoAppManager appManager;
+	private final String TAG = getClass().getName();
+	private TextView commandLog;
+	private DemoAppManager appManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_demo);
-		
-		//Init UI elements
+
+		// Init UI elements
 		commandLog = (TextView) findViewById(R.id.textView_log);
 
-        //Get application manager instance
+		// Get application manager instance
 		appManager = DemoAppManager.getInstance();
 
-        //Initiate the observers
-        String notification = ConnectionManager.ConnectionNotifications.SocketConnectedNotification.toString();
-        appManager.getEventHandler().defaulNotiftCenter.addObserver(notification, observerSocketConnected);
+		// Initiate the observers
+		String notification = ConnectionManager.ConnectionNotifications.SocketConnectedNotification
+				.toString();
+		appManager.getEventHandler().defaulNotiftCenter.addObserver(
+				notification, observerSocketConnected);
 
-        notification = ConnectionManager.ConnectionNotifications.SocketDisconnectedNotification.toString();
-        appManager.getEventHandler().defaulNotiftCenter.addObserver(notification, observerSocketDisconnected);
-        
-        notification = ConnectionManager.ConnectionNotifications.SocketConnectionFailedNotification.toString();
-        appManager.getEventHandler().defaulNotiftCenter.addObserver(notification, observerSocketConnectionFailed);
+		notification = ConnectionManager.ConnectionNotifications.SocketDisconnectedNotification
+				.toString();
+		appManager.getEventHandler().defaulNotiftCenter.addObserver(
+				notification, observerSocketDisconnected);
 
-        notification = NotificationCommandHelper.ServerCommand.ServerCommand_1.toString();
-		appManager.getEventHandler().uiLayerNotifCenter.addObserver(notification, observerServerCommand_1);
+		notification = ConnectionManager.ConnectionNotifications.SocketConnectionFailedNotification
+				.toString();
+		appManager.getEventHandler().defaulNotiftCenter.addObserver(
+				notification, observerSocketConnectionFailed);
+
+		notification = NotificationCommandHelper.ServerCommand.ServerCommand_1
+				.toString();
+		appManager.getEventHandler().uiLayerNotifCenter.addObserver(
+				notification, observerServerCommand_1);
 	}
 
 	@Override
@@ -50,77 +58,85 @@ public class DemoActivity extends Activity {
 		return true;
 	}
 
-    //Button onClick handlers
-    public void connectButtonClicked(View view) {
-        appManager.getConnectionManager().connect();
-    }
+	// Button onClick handlers
+	public void connectButtonClicked(View view) {
+		appManager.getConnectionManager().connect();
+	}
 
-    public void disconnectButtonClicked(View view) {
-        appManager.getConnectionManager().disconnect();
-    }
+	public void disconnectButtonClicked(View view) {
+		appManager.getConnectionManager().disconnect();
+	}
 
-    public void sendClientCommand_1Clicked(View view) {
-        try {
-            String notification = NotificationCommandHelper.ClientCommand.ClientCommand_1.toString();
-            Object object = "Hello Server!";
-            appManager.getConnectionManager().sendMessage(notification, object);
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
-    }
+	public void sendClientCommand_1Clicked(View view) {
+		try {
+			String notification = NotificationCommandHelper.ClientCommand.ClientCommand_1
+					.toString();
+			Object object = "Hello Server!";
+			appManager.getConnectionManager().sendMessage(notification, object);
+		} catch (Exception e) {
+			Log.e(TAG, e.toString());
+		}
+	}
 
-	//Observers
-    private Observer observerSocketConnected = new Observer() {
-        @Override
-        public void update(Observable observable, final Object object) {
-        	Log.d(TAG, "observerSocketConnected() received notifiaction");
-            DemoActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    
-                    commandLog.setText("Socket connected.");
-                }
-            });
-        }
-    };
+	// Observers
+	private Observer observerSocketConnected = new Observer() {
+		@Override
+		public void update(Observable observable, final Object object) {
+			// The update() method is still in the notification thread, create a
+			// new thread or post on the UI thread to handle the notification
+			DemoActivity.this.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					Log.d(TAG, "observerSocketConnected() received notifiaction");
+					commandLog.setText("Socket connected.");
+				}
+			});
+		}
+	};
 
-    private Observer observerSocketDisconnected = new Observer() {
-        @Override
-        public void update(Observable observable, final Object object) {
-        	Log.d(TAG, "observerSocketDisconnected() received notifiaction.");
-            DemoActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    commandLog.setText("Socket disconnected.");
-                }
-            });
-        }
-    };
-    
-    private Observer observerSocketConnectionFailed = new Observer() {
-        @Override
-        public void update(Observable observable, final Object object) {
-        	Log.d(TAG, "observerSocketConnectionFailed().");
-            DemoActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    commandLog.setText(object.toString());
-                }
-            });
-        }
-    };
+	private Observer observerSocketDisconnected = new Observer() {
+		@Override
+		public void update(Observable observable, final Object object) {
+			// The update() method is still in the notification thread, create a
+			// new thread or post on the UI thread to handle the notification
+			DemoActivity.this.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					Log.d(TAG, "observerSocketDisconnected() received notifiaction.");
+					commandLog.setText("Socket disconnected.");
+				}
+			});
+		}
+	};
 
-    private Observer observerServerCommand_1 = new Observer() {
-        @Override
-        public void update(Observable observable, final Object object) {
-        	Log.d(TAG, "observerServerCommand_1() Object = " + object.toString());
-            DemoActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    commandLog.setText(object.toString());
-                }
-            });
-        }
-    };
+	private Observer observerSocketConnectionFailed = new Observer() {
+		@Override
+		public void update(Observable observable, final Object object) {
+			// The update() method is still in the notification thread, create a
+			// new thread or post on the UI thread to handle the notification
+			DemoActivity.this.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					Log.d(TAG, "observerSocketConnectionFailed().");
+					commandLog.setText(object.toString());
+				}
+			});
+		}
+	};
+
+	private Observer observerServerCommand_1 = new Observer() {
+		@Override
+		public void update(Observable observable, final Object object) {
+			// The update() method is still in the notification thread, create a
+			// new thread or post on the UI thread to handle the notification
+			DemoActivity.this.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					Log.d(TAG, "observerServerCommand_1() Object = " + object.toString());
+					commandLog.setText(object.toString());
+				}
+			});
+		}
+	};
 
 }
